@@ -3,13 +3,15 @@
 
 struct SceneManager;
 struct ResourceManager;
+struct SceneNavigator;
 
 struct SceneLoader
 {
 	SceneManager* scenemanager_;
 	ResourceManager* resourcemanager_;
+	SceneNavigator* scenenavigator_;
 
-	SceneLoader(SceneManager* scenemanager, ResourceManager* resourcemanager);
+	SceneLoader(SceneManager* scenemanager, ResourceManager* resourcemanager, SceneNavigator* scenenavigator);
 	~SceneLoader();
 
 	bool load(const char* filename);

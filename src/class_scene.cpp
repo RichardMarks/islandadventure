@@ -9,11 +9,18 @@
 
 Scene::Scene() : found_(0)
 {
+	totalpickups_ = 0;
+	totalexits_ = 0;
 }
 
 void Scene::set_resource_manager(ResourceManager* resmgr)
 {
 	resources_ = resmgr;
+}
+
+void Scene::set_scene_navigator(SceneNavigator* navigator)
+{
+	navigator_ = navigator;
 }
 
 void Scene::set_background(const char* resname)
@@ -36,6 +43,8 @@ void Scene::set_pickup_image(Pickup* pickup, const char* resname)
 		if (res->ok())
 		{
 			pickup->picture_ = *res;
+			pickup->w_ = (*res).image_->w;
+			pickup->h_ = (*res).image_->h;
 		}
 	}
 }
@@ -48,9 +57,22 @@ void Scene::set_exit_image(Xit* xit, const char* resname)
 		if (res->ok())
 		{
 			xit->picture_ = *res;
+			xit->w_ = (*res).image_->w;
+			xit->h_ = (*res).image_->h;
 		}
 	}
 }
+
+void Scene::set_pickup_name(Pickup* pickup, const char* name)
+{
+	pickup->name_ = name;
+}
+
+void Scene::set_exit_name(Xit* xit, const char* name)
+{
+	xit->name_ = name;
+}
+
 
 void Scene::set_name(const char* name)
 {

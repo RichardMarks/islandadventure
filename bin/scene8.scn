@@ -1,0 +1,4 @@
+begin scene
+	name = Temple Death
+	background = scene8.png
+end scene

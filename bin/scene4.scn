@@ -1,27 +1,27 @@
 begin scene
-	name = West Beach
-	background = scene1.png
+	name = Eastern Path
+	background = scene4.png
 	pickups = 1
 	exits = 2
 	begin pickup
-		name = Rope
-		image = rope.png
-		x = 180
-		y = 314
-		bounds = 10 48 21 20
+		name = Matches
+		image = matches.png
+		x = 617
+		y = 421
+		bounds = 32 75 42 19
 	end pickup
 	begin exit
 		name = Head West
 		image = west.png
-		x = 159
+		x = 36
 		y = 411
-		dest = Ocean Death
+		dest = Temple Death
 	end exit
 	begin exit
 		name = Head East
 		image = north.png
-		x = 544
-		y = 373
-		dest = Beach Front
+		x = 518
+		y = 465
+		dest = East Beach
 	end exit
 end scene

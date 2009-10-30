@@ -80,7 +80,7 @@ void shutdown_game();
 // constants for the screen resolution
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
-const int WINDOW_COLOR_DEPTH = 16;
+const int WINDOW_COLOR_DEPTH = 24;
 const bool WINDOW_USE_FULLSCREEN = false;
 
 // the text in the window caption bar

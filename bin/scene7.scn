@@ -1,0 +1,4 @@
+begin scene
+	name = Pit Death
+	background = scene7.png
+end scene

@@ -5,7 +5,7 @@
 
 
 Clickable::Clickable() :
-	x_(0), y_(0), w_(0), h_(0), lmbdown_(false), visible_(false)
+	x_(0), y_(0), w_(0), h_(0), lmbdown_(false), visible_(true)
 {
 	left_ = 0;
 	top_ = 0;
@@ -28,12 +28,12 @@ Clickable::~Clickable()
 
 bool Clickable::hover()
 {
-	int box[]=
+	int box[] =
 	{
 		x_ + left_,
 		y_ + top_,
-		(x_ + left_) + (w_ - right_),
-		(y_ + top_) + (h_ - bottom_)
+		x_ + left_ + (w_ - (left_ + right_)),
+		y_ + top_ + (h_ - (top_ + bottom_))
 	};
 	if (mouse_x >= box[0] && mouse_x <= box[2] && mouse_y >= box[1] && mouse_y <= box[3])
 	{

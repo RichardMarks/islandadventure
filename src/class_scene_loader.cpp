@@ -4,12 +4,14 @@
 #include "class_pickup.h"
 #include "class_xit.h"
 #include "class_scene_manager.h"
+#include "class_scene_navigator.h"
 #include "class_scene_loader.h"
 
 
-SceneLoader::SceneLoader(SceneManager* scenemanager, ResourceManager* resourcemanager) :
+SceneLoader::SceneLoader(SceneManager* scenemanager, ResourceManager* resourcemanager, SceneNavigator* scenenavigator) :
 	scenemanager_(scenemanager),
-	resourcemanager_(resourcemanager)
+	resourcemanager_(resourcemanager),
+	scenenavigator_(scenenavigator)
 {
 }
 
@@ -58,6 +60,7 @@ bool SceneLoader::load(const char* filename)
 				{
 					scene = new Scene;
 					scene->set_resource_manager(resourcemanager_);
+					scene->set_scene_navigator(scenenavigator_);
 				}
 				else if ("pickup" == secondtoken)
 				{
@@ -119,8 +122,19 @@ bool SceneLoader::load(const char* filename)
 
 			if ("name" == property)
 			{
-				fprintf(stderr, "set scene name to \"%s\"\n", value.c_str());
-				scene->set_name(value.c_str());
+				if (withinpickup)
+				{
+					scene->set_pickup_name(pickup, value.c_str());
+				}
+				else if (withinexit)
+				{
+					scene->set_exit_name(xit, value.c_str());
+				}
+				else
+				{
+					fprintf(stderr, "set scene name to \"%s\"\n", value.c_str());
+					scene->set_name(value.c_str());
+				}
 			}
 			else if ("background" == property)
 			{
@@ -243,8 +257,19 @@ bool SceneLoader::load(const char* filename)
 			}
 			else if ("name" == property)
 			{
-				fprintf(stderr, "set scene name to \"%s\"\n", value.c_str());
-				scene->set_name(value.c_str());
+				if (withinpickup)
+				{
+					scene->set_pickup_name(pickup, value.c_str());
+				}
+				else if (withinexit)
+				{
+					scene->set_exit_name(xit, value.c_str());
+				}
+				else
+				{
+					fprintf(stderr, "set scene name to \"%s\"\n", value.c_str());
+					scene->set_name(value.c_str());
+				}
 			}
 			else
 			{

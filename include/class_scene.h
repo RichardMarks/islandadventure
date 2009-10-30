@@ -27,11 +27,17 @@ struct Scene
 
 	void set_resource_manager(ResourceManager* resmgr);
 
+	void set_scene_navigator(SceneNavigator* navigator);
+
 	void set_background(const char* resname);
 
 	void set_pickup_image(Pickup* pickup, const char* resname);
 
 	void set_exit_image(Xit* xit, const char* resname);
+
+	void set_pickup_name(Pickup* pickup, const char* name);
+
+	void set_exit_name(Xit* xit, const char* name);
 
 	void set_name(const char* name);
 

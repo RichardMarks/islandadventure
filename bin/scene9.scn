@@ -1,0 +1,4 @@
+begin scene
+	name = Treasure Chests
+	background = scene9.png
+end scene

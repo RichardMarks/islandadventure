@@ -8,6 +8,7 @@ struct Game
 {
 	ResourceManager* resmanager_;
 	SceneManager* scenemanager_;
+	SceneNavigator* navigator_;
 
 	int total_; // how many objects you have found total
 	int found_; // how many objects you have found in this scene

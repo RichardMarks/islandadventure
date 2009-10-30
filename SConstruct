@@ -7,4 +7,7 @@ e.Program('bin/island-adventure',
 	CPPPATH = Split("""
 	.
 	./include/
+	"""),
+	LIBS = e['LIBS'] + Split("""
+	png
 	"""))

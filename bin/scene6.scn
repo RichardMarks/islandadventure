@@ -1,0 +1,4 @@
+begin scene
+	name = Ocean Death
+	background = scene6.png
+end scene

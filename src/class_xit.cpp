@@ -25,5 +25,7 @@ void Xit::render(BITMAP* target)
 		return;
 	}
 	draw_sprite(target, picture_, x_, y_);
+
+	textprintf_ex(target, font, x_, y_, makecol(255,255,255), -1, "%s", name_.c_str());
 }
 
