@@ -1,0 +1,2 @@
+e=Environment(CXXFLAGS='-g -Wall')
+e.Program('scn-loader','scn-load.cpp',CPPPATH=['.'])
