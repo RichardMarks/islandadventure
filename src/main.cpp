@@ -85,6 +85,7 @@ BITMAP* backbuffer = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <vector>
+#include <string>
 #include <sstream>
 #include <iostream>
 #include <cmath>
@@ -94,8 +95,18 @@ BITMAP* backbuffer = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void makebox(int* target, int left, int top, int right, int bottom)
+{
+	target[0] = left;
+	target[1] = top;
+	target[2] = right;
+	target[3] = bottom;
+}
+////////////////////////////////////////////////////////////////////////////////
+
 struct Clickable
 {
+	std::string name_;
 	int x_;
 	int y_;
 	int w_;
@@ -159,16 +170,17 @@ struct Clickable
 		visible_ = true;
 	}
 };
+////////////////////////////////////////////////////////////////////////////////
 
 struct Pickup : public Clickable
 {
 	BITMAP* picture_;
 
-	Pickup(BITMAP* source, int x, int y, int* bounds) :
+	Pickup(const char* name, BITMAP* source, int x, int y, int* bounds) :
 		Clickable(x, y, source->w, source->h, bounds, true),
 		picture_(source)
 	{
-
+		name_ = name;
 	}
 
 	virtual ~Pickup()
@@ -184,7 +196,7 @@ struct Pickup : public Clickable
 		draw_sprite(target, picture_, x_, y_);
 	}
 };
-
+////////////////////////////////////////////////////////////////////////////////
 
 struct NavButton : public Clickable
 {
@@ -212,67 +224,386 @@ struct NavButton : public Clickable
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-void makebox(int* target, int left, int top, int right, int bottom)
+
+struct Resource
 {
-	target[0] = left;
-	target[1] = top;
-	target[2] = right;
-	target[3] = bottom;
+	std::string name_;
+	Resource(){}
+	virtual ~Resource(){}
+	virtual bool ok() = 0;
+};
+////////////////////////////////////////////////////////////////////////////////
+
+struct ImageResource : public Resource
+{
+	BITMAP* image_;
+	ImageResource(){}
+	virtual ~ImageResource(){if(image_){destroy_bitmap(image_);}}
+	operator BITMAP*(){return image_;}
+	virtual bool ok(){ return (0 != image_); }
+};
+////////////////////////////////////////////////////////////////////////////////
+bool is_image(const char* name)
+{
+	std::string n = name;
+	n = n.substr(n.size() - 3);
+	std::transform(n.begin(), n.end(), n.begin(), tolower);
+	return "bmp" == n;
 }
+////////////////////////////////////////////////////////////////////////////////
+
+struct ResourceManager
+{
+	std::vector <Resource*> resources_;
+	std::map <std::string, unsigned int> table_;
+	ResourceManager()
+	{
+	}
+	~ResourceManager()
+	{
+		std::vector <Resource*>::iterator iter = resources_.begin();
+		while(iter != resources_.end())
+		{
+			if (*iter)
+			{
+				fprintf(stderr,"releasing resource %s\n", (*iter)->name_.c_str());
+				delete *iter;
+				resources_.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+		table_.clear();
+	}
+	void load(const char* resname)
+	{
+		unsigned int id = resources_.size();
+
+		if (is_image(resname))
+		{
+			ImageResource* resource = new ImageResource;
+			resource->image_ = load_bitmap(resname, 0);
+			if (resource)
+			{
+				resource->name_ = resname;
+				resources_.push_back(resource);
+				fprintf(stderr, "loaded %s\n", resname);
+			}
+			else
+			{
+				fprintf(stderr, "error cannot load %s\n", resname);
+				return;
+			}
+		}
+		else
+		{
+			fprintf(stderr, "error loading %s - not an image\n", resname);
+			return;
+		}
+
+		table_[resname] = id;
+	}
+	Resource* get(const char* resname)
+	{
+		// very dangerous if the resource name is not right
+		return resources_[table_[resname]];
+	}
+};
+////////////////////////////////////////////////////////////////////////////////
+
+struct Scene
+{
+	int found_;
+	ResourceManager* resources_;
+	BITMAP* background_;
+	std::vector <Pickup*> pickups_;
+	std::vector <NavButton*> exits_;
+	std::string name_;
+	Scene() : found_(0)
+	{
+	}
+
+	void set_background(const char* resname)
+	{
+		ImageResource* res = (ImageResource*) resources_->get(resname);
+		if (res)
+		{
+			if (res->ok())
+			{
+				background_ = *res;
+			}
+		}
+	}
+	void add_pickup(const char* name, int x, int y, int* box)
+	{
+		ImageResource* res = (ImageResource*) resources_->get(name);
+		if (res)
+		{
+			if (res->ok())
+			{
+				pickups_.push_back(new Pickup(name, *res, 0, 0, box));
+			}
+		}
+	}
+	void add_exit(NavButton* n)
+	{
+		exits_.push_back(n);
+	}
+
+	void add_exit_north(int x, int y)
+	{
+		ImageResource* res = (ImageResource*) resources_->get("north.bmp");
+		if (res)
+		{
+			if (res->ok())
+			{
+				int box[4];makebox(box, 0, 0, 0, 0);
+				this->add_exit(new NavButton(*res, x, y, box));
+			}
+		}
+	}
+
+	void add_exit_south(int x, int y)
+	{
+		ImageResource* res = (ImageResource*) resources_->get("south.bmp");
+		if (res)
+		{
+			if (res->ok())
+			{
+				int box[4];makebox(box, 0, 0, 0, 0);
+				this->add_exit(new NavButton(*res, x, y, box));
+			}
+		}
+	}
+
+	void add_exit_east(int x, int y)
+	{
+		ImageResource* res = (ImageResource*) resources_->get("east.bmp");
+		if (res)
+		{
+			if (res->ok())
+			{
+				int box[4];makebox(box, 0, 0, 0, 0);
+				this->add_exit(new NavButton(*res, x, y, box));
+			}
+		}
+	}
+
+	void add_exit_west(int x, int y)
+	{
+		ImageResource* res = (ImageResource*) resources_->get("west.bmp");
+		if (res)
+		{
+			if (res->ok())
+			{
+				int box[4];makebox(box, 0, 0, 0, 0);
+				this->add_exit(new NavButton(*res, x, y, box));
+			}
+		}
+	}
+
+
+	void releasepickups()
+	{
+		std::vector <Pickup*>::iterator iter = pickups_.begin();
+		while(iter != pickups_.end())
+		{
+			if (*iter)
+			{
+				delete *iter;
+				pickups_.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+	}
+	void releaseexits()
+	{
+		std::vector <NavButton*>::iterator iter = exits_.begin();
+		while(iter != exits_.end())
+		{
+			if (*iter)
+			{
+				delete *iter;
+				exits_.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+	}
+
+	virtual ~Scene()
+	{
+		this->releasepickups();
+		this->releaseexits();
+	}
+
+	virtual void setup() = 0;
+	virtual bool update() = 0;
+	virtual void render(BITMAP* target) = 0;
+};
+////////////////////////////////////////////////////////////////////////////////
+
+struct SceneOne_Start : public Scene
+{
+	SceneOne_Start()
+	{
+		// NEVER do init here
+	}
+
+	~SceneOne_Start()
+	{
+	}
+
+	virtual void setup()
+	{
+		int bounds[4] = {0, 0, 0, 0};
+
+		this->set_background("scene1.bmp");
+
+		makebox(bounds, 0, 0, 0, 0);
+		this->add_pickup("rope.bmp", 0, 0, bounds);
+
+		this->add_exit_west(200, SCREEN_H / 2);
+		this->add_exit_east(SCREEN_W - 200, SCREEN_H / 2);
+	}
+
+	virtual bool update()
+	{
+		std::vector <Pickup*>::iterator iter;
+		for (iter = pickups_.begin(); iter != pickups_.end(); iter++)
+		{
+			if ((*iter)->clicked())
+			{
+				fprintf(stderr, "found %s\n", (*iter)->name_.c_str());
+				(*iter)->make_invisible();
+				found_++;
+			}
+		}
+
+		return false;
+	}
+
+	virtual void render(BITMAP* target)
+	{
+		blit(background_, target, 0, 0, 0, 0, target->w, target->h);
+
+		std::vector <Pickup*>::iterator iter;
+		for (iter = pickups_.begin(); iter != pickups_.end(); iter++)
+		{
+			(*iter)->render(target);
+		}
+	}
+};
+struct SceneTwo_BeachFront : public Scene {};
+struct SceneThree_Death : public Scene {};
+struct SceneFour_TempleBase : public Scene {};
+struct SceneFive_Death : public Scene {};
+struct SceneSix_Matches : public Scene {};
+struct SceneSeven_Candle : public Scene {};
+struct SceneEight_Treeline : public Scene {};
+struct SceneNine_Death : public Scene {};
+struct SceneTen_Win : public Scene {};
+////////////////////////////////////////////////////////////////////////////////
+
+struct SceneManager
+{
+	ResourceManager* resources_;
+	std::vector <Scene*> scenes_;
+	std::map <std::string, unsigned int> table_;
+	SceneManager()
+	{
+	}
+	~SceneManager()
+	{
+		std::vector <Scene*>::iterator iter = scenes_.begin();
+		while(iter != scenes_.end())
+		{
+			if (*iter)
+			{
+				fprintf(stderr,"destroying scene %s\n", (*iter)->name_.c_str());
+				delete *iter;
+				scenes_.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+		table_.clear();
+	}
+	void setup(ResourceManager* res)
+	{
+		fprintf(stderr,"setting up scene manager\n");
+		resources_ = res;
+		if (!res)
+		{
+			fprintf(stderr,"caution..resource manager pointer failure!\n");
+		}
+	}
+	void add(Scene* scene, const char* name)
+	{
+		fprintf(stderr,"adding scene %s\n", name);
+		scene->resources_ = resources_;
+		scene->name_ = name;
+		unsigned int id = scenes_.size();
+		scene->setup();
+		scenes_.push_back(scene);
+		table_[name] = id;
+	}
+	Scene* get(const char* name)
+	{
+		// very dangerous if the name is not right
+		return scenes_[table_[name]];
+	}
+};
 
 #define DEBUG_ROOM_SCENE 1984
 struct Game
 {
-	BITMAP* scenes_[9];
-	BITMAP* objects_[3];
-	int found_; // how many objects you have found
+	ResourceManager resmanager_;
+	SceneManager scenemanager_;
+
+	int total_; // how many objects you have found total
+	int found_; // how many objects you have found in this scene
 	int scene_; // which scene you are on
 
-	Pickup** pickups_;
 	Game()
 	{
+		resmanager_.load("scene1.bmp");
+		resmanager_.load("scene2.bmp");
+		resmanager_.load("scene3.bmp");
+		resmanager_.load("scene4.bmp");
+		resmanager_.load("scene5.bmp");
+		resmanager_.load("scene6.bmp");
+		resmanager_.load("scene7.bmp");
+		resmanager_.load("scene8.bmp");
+		resmanager_.load("scene9.bmp");
+		resmanager_.load("rope.bmp");
+		resmanager_.load("candle.bmp");
+		resmanager_.load("matches.bmp");
+		resmanager_.load("north.bmp");
+		resmanager_.load("south.bmp");
+		resmanager_.load("east.bmp");
+		resmanager_.load("west.bmp");
+
+		scenemanager_.setup(&resmanager_);
+
+		scenemanager_.add(new SceneOne_Start, "West Beach");
+
+		total_ = 0;
 		found_ = 0;
 		scene_ = 0;
-		const char* resources[] =
-		{
-			"rope.bmp",
-			"candle.bmp",
-			"matches.bmp"
-		};
-		for (int index = 0; index < 9; index++)
-		{
-			std::stringstream name;
-			name << "scene" << index+1 << ".bmp";
-			scenes_[index] = load_bitmap(name.str().c_str(), 0);
-		}
-		for (int index = 0; index < 3; index++)
-		{
-			objects_[index] = load_bitmap(resources[index], 0);
-		}
-
-		int box[4] = {0,0,0,0};
-		pickups_ = new Pickup* [3];
-
-		makebox(box, 0, 0, 0, 0);
-		pickups_[0] = new Pickup(objects_[0], 0, 0, box);
-		makebox(box, 0, 0, 0, 0);
-		pickups_[1] = new Pickup(objects_[1], 0, 0, box);
-		makebox(box, 0, 0, 0, 0);
-		pickups_[2] = new Pickup(objects_[2], 0, 0, box);
 	}
 
 	~Game()
 	{
-		for (int index = 0; index < 9; index++)
-		{
-			destroy_bitmap(scenes_[index]);
-		}
-		for (int index = 0; index < 3; index++)
-		{
-			destroy_bitmap(objects_[index]);
-			delete pickups_[index];
-		}
-		delete [] pickups_;
 	}
 
 	void update()
@@ -281,14 +612,11 @@ struct Game
 		{
 			case 0:
 			{
-				if (pickups_[0]->clicked())
-				{
-					pickups_[0]->make_invisible();
-					found_++;
-				}
-
+				scenemanager_.get("West Beach")->update();
 			} break;
-			case 1: {} break;
+			case 1:
+			{
+			} break;
 			case 2: {} break;
 			case 3: {} break;
 			case 4: {} break;
@@ -310,9 +638,9 @@ struct Game
 		{
 			case 0:
 			{
-				blit(scenes_[scene_],target,0,0,0,0,target->w,target->h);
-
-				pickups_[0]->render(target);
+				Scene* s = scenemanager_.get("West Beach");
+				s->render(target);
+				found_ = s->found_;
 			} break;
 			case 1: {} break;
 			case 2: {} break;
@@ -496,3 +824,4 @@ void shutdown_game()
 	// unallocate anything you allocated for your game here
 	delete game;
 }
+
