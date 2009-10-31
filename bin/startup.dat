@@ -1,0 +1,44 @@
+# startup.dat
+# NOGDUS MGDC 10-2009
+# (C) 2009, Richard Marks
+
+# load resources
+
+resource = scene1.png
+resource = scene2.png
+resource = scene3.png
+resource = scene4.png
+resource = scene5.png
+resource = scene6.png
+resource = scene7.png
+resource = scene8.png
+resource = scene9.png
+resource = rope.png
+resource = candle.png
+resource = matches.png
+resource = north.png
+resource = south.png
+resource = east.png
+resource = west.png
+resource = contestlogo.png
+resource = title.png
+resource = menu.png
+resource = credits.png
+resource = startgamebtn.png
+resource = exitbtn.png
+resource = creditsbtn.png
+
+# load scenes
+
+scene = title.scn
+scene = menu.scn
+scene = credits.scn
+scene = scene1.scn
+scene = scene2.scn
+scene = scene3.scn
+scene = scene4.scn
+scene = scene5.scn
+scene = scene6.scn
+scene = scene7.scn
+scene = scene8.scn
+scene = scene9.scn

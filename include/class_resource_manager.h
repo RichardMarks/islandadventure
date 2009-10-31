@@ -13,7 +13,7 @@ struct ResourceManager
 	std::map <std::string, unsigned int> table_;
 	ResourceManager();
 	~ResourceManager();
-	void load(const char* resname);
+	bool load(const char* resname);
 	Resource* get(const char* resname);
 };
 

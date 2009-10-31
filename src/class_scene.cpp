@@ -7,12 +7,27 @@
 #include "class_scene_navigator.h"
 #include "class_scene.h"
 
+void Scene::reset()
+{
+	found_ = 0;
+
+	std::vector <Pickup*>::iterator iter;
+	for (iter = pickups_.begin(); iter != pickups_.end(); iter++)
+	{
+		(*iter)->make_visible();
+	}
+}
+
 Scene::Scene() : found_(0)
 {
 	totalpickups_ = 0;
 	totalexits_ = 0;
+	death_ = false;
+	win_ = false;
 }
 
+void Scene::set_death_scene(bool val){death_=val;}
+void Scene::set_win_scene(bool val){win_=val;}
 void Scene::set_resource_manager(ResourceManager* resmgr)
 {
 	resources_ = resmgr;
@@ -277,4 +292,6 @@ void Scene::render(BITMAP* target)
 
 	this->render_pickups(target);
 	this->render_exits(target);
+
+
 }

@@ -56,7 +56,7 @@ std::vector <std::string> txt2lines(const char* filename, const std::string& ign
 			}
 			else
 			{
-				fprintf(stderr, "%04d %s\n", linecount, buffer);
+				//fprintf(stderr, "%04d %s\n", linecount, buffer);
 				std::string line = truncate_string(buffer);
 				if (line.size())
 				{

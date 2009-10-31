@@ -18,6 +18,8 @@ struct SceneManager
 	void setup(ResourceManager* res);
 	void add(Scene* scene, const char* name);
 	Scene* get(const char* name);
+
+	void reset();
 };
 
 

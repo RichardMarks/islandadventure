@@ -230,7 +230,10 @@ bool setup_game()
 void update_game()
 {
 	// TODO: *** update stuff here
-	game->update();
+	if (!game->update())
+	{
+		mainthreadisrunning = false;
+	}
 
 	// pressing F12 will end the main loop
 	if (key[KEY_F12])

@@ -17,6 +17,19 @@ SceneNavigator::~SceneNavigator()
 
 void SceneNavigator::travel(const char* destination)
 {
+	std::string d = destination;
+	if ("Exit" == d)
+	{
+		scene_ = scenemanager_->scenes_.size() + 1984;
+		return;
+	}
+
+	Scene* s = scenemanager_->scenes_.at(scene_);
+	if (s->is_death() || s->is_win())
+	{
+		scenemanager_->reset();
+	}
+
 	fprintf(stderr, "traveling to %s...\n", destination);
 	Scene* scene = scenemanager_->get(destination);
 
@@ -54,9 +67,12 @@ void SceneNavigator::render(BITMAP* target)
 	s->render(target);
 	found_ = s->found_;
 
-	std::string scenename = s->name_;
-	textprintf_ex(target,font,0,0,makecol(0,0,0),-1,"Found %d/%d items. Scene %d [%s]",
-	found_,s->totalpickups_, 1+scene_,scenename.c_str());
-	textprintf_ex(target,font,1,1,makecol(0,0,0),-1,"Found %d/%d items. Scene %d [%s]",found_,s->totalpickups_, 1+scene_,scenename.c_str());
-	textprintf_ex(target,font,2,2,makecol(255,255,255),-1,"Found %d/%d items. Scene %d [%s]",found_,s->totalpickups_, 1+scene_,scenename.c_str());
+	if (!s->is_screen())
+	{
+		std::string scenename = s->name_;
+		textprintf_ex(target,font,0,0,makecol(0,0,0),-1,"Found %d/%d items. Scene %d [%s]",
+		found_,s->totalpickups_, 1+scene_,scenename.c_str());
+		textprintf_ex(target,font,1,1,makecol(0,0,0),-1,"Found %d/%d items. Scene %d [%s]",found_,s->totalpickups_, 1+scene_,scenename.c_str());
+		textprintf_ex(target,font,2,2,makecol(255,255,255),-1,"Found %d/%d items. Scene %d [%s]",found_,s->totalpickups_, 1+scene_,scenename.c_str());
+	}
 }

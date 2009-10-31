@@ -1,4 +1,13 @@
 begin scene
 	name = Temple Death
 	background = scene8.png
+	death = true
+	exits = 1
+	begin exit
+		dest = Menu Screen
+		x = 0
+		y = 0
+		image = scene8.png
+		name = Click
+	end exit
 end scene

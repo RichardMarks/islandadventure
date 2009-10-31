@@ -179,7 +179,7 @@ ResourceManager::~ResourceManager()
 	table_.clear();
 }
 
-void ResourceManager::load(const char* resname)
+bool ResourceManager::load(const char* resname)
 {
 	unsigned int id = resources_.size();
 
@@ -196,16 +196,17 @@ void ResourceManager::load(const char* resname)
 		else
 		{
 			fprintf(stderr, "error cannot load %s\n", resname);
-			return;
+			return false;
 		}
 	}
 	else
 	{
 		fprintf(stderr, "error loading %s - not an image\n", resname);
-		return;
+		return false;
 	}
 
 	table_[resname] = id;
+	return true;
 }
 
 Resource* ResourceManager::get(const char* resname)

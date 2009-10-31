@@ -1,4 +1,13 @@
 begin scene
 	name = Ocean Death
 	background = scene6.png
+	death = true
+	exits = 1
+	begin exit
+		dest = Menu Screen
+		x = 0
+		y = 0
+		image = scene6.png
+		name = Click
+	end exit
 end scene

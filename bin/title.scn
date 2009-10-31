@@ -1,13 +1,13 @@
 begin scene
-	name = Pit Death
-	background = scene7.png
-	death = true
+	name = Title Screen
+	background = title.png
 	exits = 1
+	screen = true
 	begin exit
 		dest = Menu Screen
 		x = 0
 		y = 0
-		image = scene7.png
+		image = title.png
 		name = Click
 	end exit
 end scene

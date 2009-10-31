@@ -23,7 +23,18 @@ struct Scene
 	int totalpickups_;
 	int totalexits_;
 
+	bool death_;
+	bool win_;
+	bool screen_; // is this just a typical screen and not a game screen?
+
 	Scene();
+	void reset();
+	void set_death_scene(bool val = true);
+	void set_win_scene(bool val = true);
+	void set_screen_scene(bool val=true){screen_ = val; }
+	bool is_death() const{return death_;}
+	bool is_win() const{return win_;}
+	bool is_screen() const{return screen_; }
 
 	void set_resource_manager(ResourceManager* resmgr);
 

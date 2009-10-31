@@ -53,3 +53,12 @@ Scene* SceneManager::get(const char* name)
 	return scenes_[table_[name]];
 }
 
+void SceneManager::reset()
+{
+	std::vector <Scene*>::iterator iter;
+	for (iter = scenes_.begin(); iter != scenes_.end(); iter++)
+	{
+		(*iter)->reset();
+	}
+}
+
