@@ -1,0 +1,27 @@
+begin scene
+	name = Eastern Path
+	background = scene4.png
+	pickups = 1
+	exits = 2
+	begin pickup
+		name = Matches
+		image = matches.png
+		x = 617
+		y = 421
+		bounds = 32 75 42 19
+	end pickup
+	begin exit
+		name = Head West
+		image = west.png
+		x = 36
+		y = 411
+		dest = Temple Death
+	end exit
+	begin exit
+		name = Head East
+		image = north.png
+		x = 518
+		y = 465
+		dest = East Beach
+	end exit
+end scene

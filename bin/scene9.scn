@@ -1,0 +1,13 @@
+begin scene
+	name = Treasure Chests
+	background = scene9.png
+	win = true
+	exits = 1
+	begin exit
+		dest = Menu Screen
+		x = 0
+		y = 0
+		image = scene9.png
+		name = Click
+	end exit
+end scene

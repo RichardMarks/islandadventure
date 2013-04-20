@@ -1,0 +1,27 @@
+begin scene
+	name = Beach Front
+	background = scene2.png
+	pickups = 0
+	exits = 3
+	begin exit
+		name = Head West
+		image = west.png
+		x = 31
+		y = 375
+		dest = West Beach
+	end exit
+	begin exit
+		name = Head North
+		image = north.png
+		x = 260
+		y = 234
+		dest = Temple Gate
+	end exit
+	begin exit
+		name = Head East
+		image = east.png
+		x = 655
+		y = 423
+		dest = Pit Death
+	end exit
+end scene

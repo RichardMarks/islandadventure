@@ -1,0 +1,52 @@
+/*
+begin scene
+	name = West Beach
+	background = scene1.bmp
+	pickups = 1
+	exits = 2
+	begin pickup
+		image = rope.bmp
+		x = 80
+		y = 438
+		bounds = 10 48 21 20
+	end pickup
+	begin exit
+		image = west.bmp
+		x = 159
+		y = 411
+		dest = Ocean Death
+	end exit
+	begin exit
+		image = east.bmp
+		x = 465
+		y = 414
+		dest = Beach Front
+	end exit
+end scene
+*/
+
+Scene* scene = new Scene;
+	scene->set_name("West Beach");
+	scene->set_background("scene1.bmp");
+	scene->set_total_pickups(1);
+	scene->set_total_exits(2);
+	Pickup* pickup = new Pickup;
+	pickup->set_image("rope.bmp");
+	pickup->set_x(80);
+	pickup->set_y(438);
+	pickup->set_collision_bounds(10, 48, 21, 20);
+	scene->add_pickup(pickup);
+	Xit* xit = new Xit;
+	xit->set_image("west.bmp");
+	xit->set_x(159);
+	xit->set_y(411);
+	xit->set_destination("Ocean Death");
+	scene->add_exit(xit);
+	Xit* xit = new Xit;
+	xit->set_image("east.bmp");
+	xit->set_x(465);
+	xit->set_y(414);
+	xit->set_destination("Beach Front");
+	scene->add_exit(xit);
+scenemanager_.add(scene);
+

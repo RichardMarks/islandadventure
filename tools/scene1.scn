@@ -1,0 +1,24 @@
+begin scene
+	name = West Beach
+	background = scene1.bmp
+	pickups = 1
+	exits = 2
+	begin pickup
+		image = rope.bmp
+		x = 80
+		y = 438
+		bounds = 10 48 21 20
+	end pickup
+	begin exit
+		image = west.bmp
+		x = 159
+		y = 411
+		dest = Ocean Death
+	end exit
+	begin exit
+		image = east.bmp
+		x = 465
+		y = 414
+		dest = Beach Front
+	end exit
+end scene

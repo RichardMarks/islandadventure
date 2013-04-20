@@ -1,0 +1,27 @@
+begin scene
+	name = Temple Gate
+	background = scene3.png
+	pickups = 1
+	exits = 2
+	begin pickup
+		name = Candle
+		image = candle.png
+		x = 216
+		y = 373
+		bounds = 50 40 56 35
+	end pickup
+	begin exit
+		name = Head East
+		image = east.png
+		x = 660
+		y = 275
+		dest = Eastern Path
+	end exit
+	begin exit
+		name = Head South
+		image = south.png
+		x = 362
+		y = 415
+		dest = Beach Front
+	end exit
+end scene

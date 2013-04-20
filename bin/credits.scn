@@ -1,0 +1,12 @@
+begin scene
+	name = Credits Screen
+	background = credits.png
+	exits = 1
+	screen = true
+	begin exit
+		dest = Menu Screen
+		x = 0
+		y = 0
+		image = credits.png
+	end exit
+end scene

@@ -1,0 +1,24 @@
+begin scene
+	name = Menu Screen
+	background = menu.png
+	exits = 3
+	screen = true
+	begin exit
+		dest = Credits Screen
+		x = 558
+		y = 520
+		image = creditsbtn.png
+	end exit
+	begin exit
+		dest = West Beach
+		x = 200
+		y = 345
+		image = startgamebtn.png
+	end exit
+	begin exit
+		dest = Exit
+		x = 0
+		y = 501
+		image = exitbtn.png
+	end exit
+end scene

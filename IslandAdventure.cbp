@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="IslandAdventure" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="SConS">
+				<Option output="bin/island-adventure" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/" />
+				<Option object_output="objects/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<ExtraCommands>
+					<Add after="GameExe" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="Makefile" />
+		<Unit filename="SConstruct" />
+		<Unit filename="include/class_clickable.h" />
+		<Unit filename="include/class_game.h" />
+		<Unit filename="include/class_imageresource.h" />
+		<Unit filename="include/class_pickup.h" />
+		<Unit filename="include/class_resource.h" />
+		<Unit filename="include/class_resource_manager.h" />
+		<Unit filename="include/class_scene.h" />
+		<Unit filename="include/class_scene_loader.h" />
+		<Unit filename="include/class_scene_manager.h" />
+		<Unit filename="include/class_scene_navigator.h" />
+		<Unit filename="include/class_xit.h" />
+		<Unit filename="include/support.h" />
+		<Unit filename="readme.txt" />
+		<Unit filename="src/class_clickable.cpp" />
+		<Unit filename="src/class_game.cpp" />
+		<Unit filename="src/class_imageresource.cpp" />
+		<Unit filename="src/class_pickup.cpp" />
+		<Unit filename="src/class_resource_manager.cpp" />
+		<Unit filename="src/class_scene.cpp" />
+		<Unit filename="src/class_scene_loader.cpp" />
+		<Unit filename="src/class_scene_manager.cpp" />
+		<Unit filename="src/class_scene_navigator.cpp" />
+		<Unit filename="src/class_xit.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/support.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

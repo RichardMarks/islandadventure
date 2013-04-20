@@ -1,0 +1,20 @@
+begin scene
+	name = East Beach
+	background = scene5.png
+	pickups = 0
+	exits = 2
+	begin exit
+		name = Head South
+		image = north.png
+		x = 410
+		y = 357
+		dest = Treasure Chests
+	end exit
+	begin exit
+		name = Head West
+		image = east.png
+		x = 670
+		y = 453
+		dest = Eastern Path
+	end exit
+end scene
