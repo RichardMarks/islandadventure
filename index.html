@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Islandadventure by RichardMarks</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Islandadventure</h1>
+        <p>Point n Click Adventure Game Demo</p>
+        <p class="view"><a href="https://github.com/RichardMarks/islandadventure">View the Project on GitHub <small>RichardMarks/islandadventure</small></a></p>
+        <ul>
+          <li><a href="https://github.com/RichardMarks/islandadventure/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/RichardMarks/islandadventure/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/RichardMarks/islandadventure">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><img src="http://storage.ccpssolutions.com/richard/ia/ss.png" alt="Island Adventure Title Screen"></p>
+
+<h2>About</h2>
+
+<p>Developed for a NOGDUS contest. This very short point-n-click adventure game sits on top a powerful data-driven adventure game engine.</p>
+
+<h2>Developer Journal</h2>
+
+<p>Below is my developer journal with the more recent entry at the top.</p>
+
+<h3>Journal Entry Oct 31, 2009 10:04 AM</h3>
+
+<p>This is my final developer journal entry for this project, and I wanted to close with a small update. I modeled a 3D hand and rendered it in Wings 3D to use as the mouse cursor. I've never made a hand model before..so its not the best, but it does the job I think. The items never were able to be redrawn. Rachel had no time, and my attempts didn't work out, so the ugly programmer art version still exists.</p>
+
+<p>I thought of a way to make the game more like a game, though I didn't have the time to finish the idea, so it was scrapped in the contest build. Perhaps later I will expand the engine to support the ideas that I had. (animated scenes, puzzles, keys, locks, timed scenes, scripted events, and world inhabitants)</p>
+
+<p>This project was a double-first for me. I've never written a point n click adventure game, and I have never made a fully data driven game before. Both of which, my entry to the contest are. It was a lot of fun, I learned a lot, and I have yet another item to add to my ever expanding experiences.</p>
+
+<h3>Journal Entry Oct 31, 2009 6:37 AM</h3>
+
+<p>At this point everything is done. It's not particularly fun, because its so short, but making it any longer really isn't going to be possible, as there isn't time to design and draw more scenes. The few items to collect give you <em>something</em> to do, and finding your way through without dying and having to start over give it at least somewhat of a challenge. I'll try to get Rachel to draw the collectible items so that they are consistent with the other graphics..but as of now, they clash horribly because I'm just not an artist. So programmer art is all that they are.</p>
+
+<p>The "engine" that I developed during the past 30 hours is actually quite cool. It uses external files for setting up the available resources (images), and which scenes to use. And, the scenes themselves are setup using external files as well. This means that the executable could be used to create more games that work the same way. The title, credits, and menu screens are all implemented as scenes, so even that is configurable. One of my best pieces of work to date in that its reusable out of the box. Compile it once, and can make a lot of games. There is no limit to the number of scenes, or pickups.</p>
+
+<p>So all in all this was lots of fun. I'll post the code and binaries later.</p>
+
+<h3>Journal Entry Oct 30, 2009 6:08 PM</h3>
+
+<p>As of now, all scene art has been completed by Rachel, and I've got the navigation system working. My next goal is to add end-game logic so that the game doesn't just leave you at a scene with nothing to do as it does now. Then, following that, my intention is to create the title and credits screens and tie that into the game with a game state module. I had to take a break for a few hours thanks to real life situations..blah.. I guess I needed a break after 16 hours of non-stop sitting here working on this! I'm not going to show the new art until its release time, to keep a surprise.</p>
+
+<h3>Journal Entry Oct 30, 2009 11:01 AM</h3>
+
+<p>The game art has been delegated to my good friend.  and it looks fantastic! Thanks Rachel! I'm having difficulties with the navigation module..and I just split the project into a bunch of files because it was a nightmare to find anything in that one large source file. still moving forward...back to figuring out that world nav issue. </p>
+
+<h3>Journal Entry Oct 30, 2009 7:38 AM</h3>
+
+<p>I've implemented the scene loading stuff, so now I'm going to start on the world navigation code. Then all that is left I think is drawing the rest of the scenes  .. and then testing/debugging and cross-compilation for you winblows users</p>
+
+<h3>Journal Entry Oct 30, 2009 5:40 AM</h3>
+
+<p>Decided to implement my scenes as an external script.
+Just got the scene definition file parser implemented.
+About to start the scene generation code that implements the functionality of the scene loader.</p>
+
+<p>.scn language definition</p>
+
+<pre><code>begin {scene|pickup|exit}
+end {scene|pickup|exit}
+
+in scene block
+
+name = string
+pickups = integer
+exits = integer
+background = string
+
+in pickup block
+
+name = string
+image = string
+x = integer
+y = integer
+bounds = integer integer integer integer
+
+in exit block
+
+image = string
+x = integer
+y = integer
+dest = string
+
+parsing rules:
+trailing and leading whitespace means nothing
+empty lines mean nothing
+lines starting with a pound # sign are comments
+tokens MUST be spaced out
+</code></pre>
+
+<h3>Journal Entry Oct 30, 2009 3:19 AM</h3>
+
+<p>I just finished up a resource manager, scene manager, and implementing item pickups. My runtime still looks the same as the last screen shot, so I'll just show my debug text.</p>
+
+<pre><code>$ ./island-adventure 
+loaded scene1.bmp
+loaded scene2.bmp
+loaded scene3.bmp
+loaded scene4.bmp
+loaded scene5.bmp
+loaded scene6.bmp
+loaded scene7.bmp
+loaded scene8.bmp
+loaded scene9.bmp
+loaded rope.bmp
+loaded candle.bmp
+loaded matches.bmp
+loaded north.bmp
+loaded south.bmp
+loaded east.bmp
+loaded west.bmp
+setting up scene manager
+adding scene West Beach
+found rope.bmp
+destroying scene West Beach
+releasing resource scene1.bmp
+releasing resource scene2.bmp
+releasing resource scene3.bmp
+releasing resource scene4.bmp
+releasing resource scene5.bmp
+releasing resource scene6.bmp
+releasing resource scene7.bmp
+releasing resource scene8.bmp
+releasing resource scene9.bmp
+releasing resource rope.bmp
+releasing resource candle.bmp
+releasing resource matches.bmp
+releasing resource north.bmp
+releasing resource south.bmp
+releasing resource east.bmp
+releasing resource west.bmp
+</code></pre>
+
+<h3>Journal Entry Oct 30, 2009 1:02 AM</h3>
+
+<p>I've decided to scrap using pre-rendered art, as rendering will take way too long.
+The first render said it would take 20 hours, and I need no less than 9!
+So, I'm going old-school and hand-drawing everything in KolourPaint.</p>
+
+<p>Attached is a screenshot of my runtime
+<img src="http://ccpssolutions.com/nogdusforums/index.php?action=dlattach;topic=607.0;attach=112;image" alt="Island Adventure Screenshot 6"></p>
+
+<h3>Journal Entry Oct 30, 2009 12:15 AM</h3>
+
+<p>Okay, at this point I have about 80% of my art modeled...but the time consuming shit follows. The rendering process. This has me worried. I only have one computer where I am now, and so if my laptop is stuck rendering models...I'll not have a way to code the game! I'm going to use the Kerkythea stand alone commercial renderer software (its free and renders better than 3ds max and maya!)</p>
+
+<h3>Journal Entry Oct 28, 2009 6:32 AM</h3>
+
+<p>I have decided that I am going to develop as much of the art before the contest, and instead of using the Rubicon engine architecture, I'm going to just hack the entire game during the contest. I think I'll have a better chance of having a <em>game</em> at the end of the contest in doing this.</p>
+
+<h3>Journal Entry Oct 28, 2009 3:20 AM</h3>
+
+<p>Just got a clean build of my engine project. Its not much from the outside, but its a nice start. It consists of 27 files, 1772 lines of code, 658 lines of whitespace, 1494 lines of comments, and 7 lines with comments and code on the same line, reaching 3931 lines total. Stats courtesy of the Code::Blocks Code Statistics Plugin.</p>
+
+<p>I've got a Newton Physics system, a Multi-Emitter Dynamic Particle system, PNG image support, a reliable random number generator, a custom high resolution timer, and cross-platform support thanks to using Allegro as a back end. Next I think I'm going to start the world editor tool project.
+Until next update...</p>
+
+<h3>Journal Entry Oct 28, 2009 1:53 AM</h3>
+
+<p>I'm creating my project directory hierarchy now. I chose to use a nice structured hierarchy for my project to help speed up the development cycle a bit. Its far easier to locate things when they have a proper place to be, than if everything is tossed in a single massive directory.</p>
+
+<pre><code>.
+   |-bin
+   |-docs
+   |-media
+   |---audio
+   |---graphics
+   |---worlds
+   |-source
+   |---include
+   |-----dependencies
+   |-----engine
+   |-----game
+   |-----tools
+   |---src
+   |-----dependencies
+   |-----engine
+   |-----game
+   |-----tools
+</code></pre>
+
+<p>Next up, I'll start writing the engine core. I have chosen to call my engine Rubicon. </p>
+
+<blockquote>
+<p>Rubicon (ROO-bi-kon) noun</p>
+
+<p>A point of no return, one where an action taken commits a person irrevocably. </p>
+</blockquote>
+
+<p>I'll write more once I have that finished.
+Until next update...</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/RichardMarks">RichardMarks</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
